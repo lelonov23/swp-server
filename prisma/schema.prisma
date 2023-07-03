@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  chatId      String   @unique
+  isNotified Boolean  @default(true)
+  groupId    Int
+  group      Group    @relation(fields: [groupId], references: [id])
+
+  @@map("users")
+}
+
+model Group {
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  name      String       @unique
+  events    GroupEvent[]
+  users     User[]
+
+  @@map("groups")
+}
+
+model Event {
+  id         Int          @id @default(autoincrement())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  title      String?
+  date       DateTime?
+  lecturerId Int?
+  type       EventType?
+  lecturer   Lecturer?     @relation(fields: [lecturerId], references: [id])
+  groups     GroupEvent[]
+
+  @@map("events")
+}
+
+model GroupEvent {
+  groupId Int
+  eventId Int
+  event   Event? @relation(fields: [eventId], references: [id])
+  group   Group @relation(fields: [groupId], references: [id])
+
+  @@id([groupId, eventId])
+  @@map("groupsevents")
+}
+
+model Lecturer {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  events    Event[]
+
+  @@map("lecturers")
+}
+
+enum EventType {
+  LECTURE
+  LAB
+  TUTORIAL
+}

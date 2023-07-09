@@ -25,10 +25,23 @@ export class AdminService {
                 id: id
             },
             include: {
-                events: true,
+                events: {
+                    include: {
+                        event: {
+                            include: {
+                                lecturer: true,
+                            },
+                        }
+                    },
+                }
             }
         })
-
-        return group.events
+        const events = group.events.map((event) => {
+            delete event.event.createdAt
+            delete event.event.lecturerId
+            delete event.event.updatedAt
+            return event.event
+        })
+        return events
     }
 }

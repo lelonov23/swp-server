@@ -16,6 +16,7 @@ export class AdminService {
                 yearId: id
             }
         })
+        return groups
     }
 
     async event(id: number) {
@@ -24,8 +25,10 @@ export class AdminService {
                 id: id
             },
             include: {
-                
+                events: true,
             }
         })
+
+        return group.events
     }
 }

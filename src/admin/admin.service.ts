@@ -17,4 +17,15 @@ export class AdminService {
             }
         })
     }
+
+    async event(id: number) {
+        const group = await this.prisma.group.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                
+            }
+        })
+    }
 }

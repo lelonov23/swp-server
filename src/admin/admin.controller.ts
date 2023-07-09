@@ -14,4 +14,9 @@ export class AdminController {
     groups(@Param('id') id: number) {
         return this.adminService.groups(id)
     }
+
+    @Get('events/:id')
+    events(@Param('id') id: number) {
+        return this.adminService.event(id)
+    }
 }

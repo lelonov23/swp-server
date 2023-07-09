@@ -20,7 +20,7 @@ describe('AdminController', () => {
     it('should return an array of groups', async () => {
       const result = ['test'];
 
-      expect(await controller.groups(1)).toBe(result);
+      expect(await controller.groups('1')).toBe(result);
     });
   });
 });

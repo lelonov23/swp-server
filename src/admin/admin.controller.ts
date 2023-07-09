@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AdminService } from './admin.service';
+import { stringify } from 'querystring';
 
 @Controller('admin')
 export class AdminController {
@@ -11,12 +12,14 @@ export class AdminController {
     }
 
     @Get('groups/:id')
-    groups(@Param('id') id: number) {
-        return this.adminService.groups(id)
+    groups(@Param('id') id: string) {
+        const intId = parseInt(id)
+        return this.adminService.groups(intId)
     }
 
     @Get('events/:id')
-    events(@Param('id') id: number) {
-        return this.adminService.event(id)
+    events(@Param('id') id: string) {
+        const intId = parseInt(id)
+        return this.adminService.event(intId)
     }
 }

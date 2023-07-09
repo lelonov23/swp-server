@@ -4,12 +4,53 @@ import { data } from './json/CoreCourses.json';
 
 const prisma = new PrismaClient()
 async function main() {
+  //years
+  const y1 = await prisma.year.upsert({
+    where: { name: 'BS - Year 1' },
+    update: {},
+    create: {
+      name: 'BS - Year 1',
+    },
+  })
+  const y2 = await prisma.year.upsert({
+    where: { name: 'BS - Year 2' },
+    update: {},
+    create: {
+      name: 'BS - Year 2',
+    },
+  })
+  const y3 = await prisma.year.upsert({
+    where: { name: 'BS - Year 3' },
+    update: {},
+    create: {
+      name: 'BS - Year 3',
+    },
+  })
+  const y4 = await prisma.year.upsert({
+    where: { name: 'BS - Year 4' },
+    update: {},
+    create: {
+      name: 'BS - Year 4',
+    },
+  })
+  const my1 = await prisma.year.upsert({
+    where: { name: 'MS - Year 1' },
+    update: {},
+    create: {
+      name: 'MS - Year 1',
+    },
+  })
   //groups
   const cs1 = await prisma.group.upsert({
     where: { name: 'B22-CS-01' },
     update: {},
     create: {
       name: 'B22-CS-01',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const cs2 = await prisma.group.upsert({
@@ -17,6 +58,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-CS-02',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const cs3 = await prisma.group.upsert({
@@ -24,6 +70,12 @@ async function main() {
     update: {},
     create: {
       name: 'B22-CS-03',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
+      
     },
   })
   const cs4 = await prisma.group.upsert({
@@ -31,6 +83,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-CS-04',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const cs5 = await prisma.group.upsert({
@@ -38,13 +95,22 @@ async function main() {
     update: {},
     create: {
       name: 'B22-CS-05',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const cs6 = await prisma.group.upsert({
     where: { name: 'B22-CS-06' },
     update: {},
     create: {
-      name: 'B22-CS-06',
+      name: 'B22-CS-06',year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const dsai1 = await prisma.group.upsert({
@@ -52,6 +118,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-DSAI-01',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const dsai2 = await prisma.group.upsert({
@@ -59,6 +130,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-DSAI-02',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const dsai3 = await prisma.group.upsert({
@@ -66,6 +142,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-DSAI-03',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
   const dsai4 = await prisma.group.upsert({
@@ -73,6 +154,11 @@ async function main() {
     update: {},
     create: {
       name: 'B22-DSAI-04',
+      year: {
+        connect: {
+          id: y1.id
+        }
+      }
     },
   })
 
@@ -111,6 +197,11 @@ async function main() {
                         existingGroup = await prisma.group.create({
                             data: {
                                 name: group,
+                                year: {
+                                  connect: {
+                                    id: y1.id,
+                                  }
+                                }
                             }
                         })
                     }

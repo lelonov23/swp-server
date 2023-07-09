@@ -4,7 +4,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url  	= env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -26,16 +28,26 @@ model Group {
   name      String       @unique
   events    GroupEvent[]
   users     User[]
+  year Year @relation(fields: [yearId], references: [id])
+  yearId Int
 
   @@map("groups")
+}
+
+model Year {
+  id Int @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  name String @unique
+  groups Group[]
 }
 
 model Event {
   id         Int          @id @default(autoincrement())
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
-  title      String?
-  date       DateTime?
+  title      String
+  date       DateTime
   lecturerId Int?
   type       EventType?
   lecturer   Lecturer?     @relation(fields: [lecturerId], references: [id])

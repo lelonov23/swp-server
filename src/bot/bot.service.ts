@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { BotUserDto } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UserIdDto } from './dto';
 
 @Injectable()
 export class BotService {
@@ -88,5 +89,37 @@ export class BotService {
         } catch (error) {
             throw new error
         }
+    }
+    async usersSubscribed() {
+        try {
+            const users = await this.prisma.user.findMany({
+                where: {
+                    isNotified: true,
+                }
+            })
+            return users.map(user => user.chatId)
+        } catch (error) {
+            throw new error
+        }
+    }
+
+    async switch(dto: UserIdDto) {
+        try {
+            const user = await this.prisma.user.update({
+                where: {
+                    chatId: dto.chatId,
+                },
+                data: {
+                    isNotified: false,
+                }
+            })
+        } catch (error) {
+            if (error.code == 'P2025') {
+                throw new ForbiddenException(
+                    'No such user found',
+                )
+            }
+        }
+        
     }
 }

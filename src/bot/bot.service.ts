@@ -105,12 +105,17 @@ export class BotService {
 
     async switch(dto: UserIdDto) {
         try {
-            const user = await this.prisma.user.update({
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    chatId: dto.chatId,
+                }
+            }) 
+            await this.prisma.user.update({
                 where: {
                     chatId: dto.chatId,
                 },
                 data: {
-                    isNotified: false,
+                    isNotified: user.isNotified == true ? false : true
                 }
             })
         } catch (error) {

@@ -50,7 +50,8 @@ async function main() {
         data: {
             title: object.title,
             type: object.title.includes('(lab)') ? EventType.LAB : object.title.includes('(tut)') ? EventType.TUTORIAL : EventType.LECTURE,
-            date: new Date(),
+            date: object.date,
+            room: object.room + '',
             lecturer: object.lecturer != 'not defined' ? {
                 connect: {
                     id: existingLect.id

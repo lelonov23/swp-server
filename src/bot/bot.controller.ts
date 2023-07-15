@@ -31,4 +31,9 @@ export class BotController {
     switch(@Body() dto: UserIdDto) {
         return this.botService.switch(dto)
     }
+
+    @Get('user/isNotified/:id')
+    isNotified(@Param('id') id: string) {
+        return this.botService.isNotified(id)
+    }
  }

@@ -9,6 +9,16 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+model Admin {
+  id Int @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email String @unique
+  password String
+
+  @@map("admins")
+}
+
 model User {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
@@ -49,6 +59,7 @@ model Event {
   title      String
   date       DateTime
   lecturerId Int?
+  room String?
   type       EventType?
   lecturer   Lecturer?     @relation(fields: [lecturerId], references: [id])
   groups     GroupEvent[]

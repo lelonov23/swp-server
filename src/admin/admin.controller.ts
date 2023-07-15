@@ -1,6 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { stringify } from 'querystring';
+import { EventDto } from './dto';
 
 @Controller('admin')
 export class AdminController {
@@ -21,5 +21,10 @@ export class AdminController {
     events(@Param('id') id: string) {
         const intId = parseInt(id)
         return this.adminService.event(intId)
+    }
+
+    @Post('event/create')
+    switch(@Body() dto: EventDto) {
+        return this.adminService.createEvent(dto);
     }
 }

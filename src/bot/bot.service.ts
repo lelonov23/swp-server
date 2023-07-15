@@ -127,4 +127,13 @@ export class BotService {
         }
         
     }
+    async isNotified(id: string) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                chatId: id
+            }
+        })
+
+        return user.isNotified
+    }
 }

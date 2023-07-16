@@ -49,7 +49,7 @@ async function main() {
     const event = await prisma.event.create({
         data: {
             title: object.title,
-            type: object.title.includes('(lab)') ? EventType.LAB : object.title.includes('(tut)') ? EventType.TUTORIAL : EventType.LECTURE,
+            type: object.type == 'lab' ? EventType.LAB : object.type == 'tut' ? EventType.TUTORIAL : EventType.LECTURE,
             date: object.date,
             room: object.room + '',
             lecturer: object.lecturer != 'not defined' ? {
@@ -58,7 +58,7 @@ async function main() {
                 },
             } : {},
             groups: {
-                create: await Promise.all(object.groups.map(async (group) => {
+                create: await Promise.all(object.group.map(async (group) => {
                     let existingGroup = await prisma.group.findUnique({
                         where: {
                             name: group,

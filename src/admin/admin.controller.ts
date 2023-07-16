@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { EventDto } from './dto';
+import { EventDto, UpdateEventDto } from './dto';
 
 @Controller('admin')
 export class AdminController {
@@ -31,5 +31,10 @@ export class AdminController {
     @Get('lecturers')
     getLecturers() {
         return this.adminService.getLecturers();
+    }
+
+    @Post('event/update/:id')
+    updateEvent(@Body() dto: UpdateEventDto) {
+        return this.adminService.updateEvent(dto);
     }
 }

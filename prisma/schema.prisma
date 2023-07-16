@@ -3,18 +3,18 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
+  provider = "postgresql"
+  url  	= env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Admin {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
+  id Int @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email String @unique
+  password String
 
   @@map("admins")
 }
@@ -23,9 +23,9 @@ model User {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  chatId      String   @unique
   isNotified Boolean  @default(true)
   groupId    Int
-  chatId     String   @unique
   group      Group    @relation(fields: [groupId], references: [id])
 
   @@map("users")
@@ -36,20 +36,20 @@ model Group {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   name      String       @unique
-  yearId    Int
-  year      Year         @relation(fields: [yearId], references: [id])
   events    GroupEvent[]
   users     User[]
+  year Year @relation(fields: [yearId], references: [id])
+  yearId Int
 
   @@map("groups")
 }
 
 model Year {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @unique
-  groups    Group[]
+  id Int @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  name String @unique
+  groups Group[]
 }
 
 model Event {
@@ -59,9 +59,9 @@ model Event {
   title      String
   date       DateTime
   lecturerId Int?
+  room String?
   type       EventType?
-  room       String?
-  lecturer   Lecturer?    @relation(fields: [lecturerId], references: [id])
+  lecturer   Lecturer?     @relation(fields: [lecturerId], references: [id])
   groups     GroupEvent[]
 
   @@map("events")
@@ -70,7 +70,7 @@ model Event {
 model GroupEvent {
   groupId Int
   eventId Int
-  event   Event @relation(fields: [eventId], references: [id])
+  event   Event? @relation(fields: [eventId], references: [id])
   group   Group @relation(fields: [groupId], references: [id])
 
   @@id([groupId, eventId])

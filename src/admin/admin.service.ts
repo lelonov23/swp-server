@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { EventDto } from './dto';
+import { EventDto, UpdateEventDto } from './dto';
 import { EventType } from '@prisma/client';
 
 @Injectable()
@@ -29,7 +29,11 @@ export class AdminService {
             include: {
                 events: {
                     include: {
-                        event: true,
+                        event: {
+                            include: {
+                                lecturer: true
+                            }
+                        }
                     }
                 }
             }
@@ -40,7 +44,6 @@ export class AdminService {
 
     async createEvent(dto: EventDto) {
         try {
-            console.log(dto)
             const existingLect = await this.prisma.lecturer.findUnique({
                 where: {
                     name: dto.lecturer
@@ -79,7 +82,33 @@ export class AdminService {
             console.log(error)
         }
     }
-    
+
+    async updateEvent(dto: UpdateEventDto) {
+        try {
+            const existingLect = await this.prisma.lecturer.findUnique({
+                where: {
+                    name: dto.lecturer
+                }
+            })
+            const event = await this.prisma.event.update({
+                where: {
+                    id: parseInt(dto.id),
+                },
+                data: {
+                    title: dto.title,
+                    room: dto.room,
+                    lecturer: {
+                        connect: existingLect,
+                    },
+                    type: dto.type == 'LECTURE' ? EventType.LECTURE : dto.type == 'LAB' ? EventType.LAB : EventType.TUTORIAL
+                }
+            })
+            return event
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     async getLecturers() {
         return await this.prisma.lecturer.findMany({});
     }

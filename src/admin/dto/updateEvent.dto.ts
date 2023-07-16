@@ -3,8 +3,8 @@ import { IsNotEmpty, IsOptional, IsString,  } from "class-validator";
 export class UpdateEventDto {
     @IsNotEmpty()
     id: string;
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     title: string;
     @IsOptional()
     @IsString()

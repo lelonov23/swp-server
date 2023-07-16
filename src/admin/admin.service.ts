@@ -27,11 +27,15 @@ export class AdminService {
                 id: id
             },
             include: {
-                events: true,
+                events: {
+                    include: {
+                        event: true,
+                    }
+                }
             }
         })
 
-        return group.events
+        return group.events.map((event) => event.event)
     }
 
     async createEvent(dto: EventDto) {

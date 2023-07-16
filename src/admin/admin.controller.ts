@@ -33,7 +33,7 @@ export class AdminController {
         return this.adminService.getLecturers();
     }
 
-    @Post('event/update/:id')
+    @Post('event/update')
     updateEvent(@Body() dto: UpdateEventDto) {
         return this.adminService.updateEvent(dto);
     }

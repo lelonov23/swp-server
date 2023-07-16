@@ -79,17 +79,19 @@ export class AdminService {
             })
             return event
         } catch (error) {
-            console.log(error)
+            return error
         }
     }
 
     async updateEvent(dto: UpdateEventDto) {
         try {
+            console.log(dto)
             const existingLect = await this.prisma.lecturer.findUnique({
                 where: {
                     name: dto.lecturer
                 }
             })
+            console.log(existingLect)
             const event = await this.prisma.event.update({
                 where: {
                     id: parseInt(dto.id),
@@ -107,7 +109,7 @@ export class AdminService {
             })
             return event
         } catch(error) {
-            console.log(error)
+            return error
         }
     }
 

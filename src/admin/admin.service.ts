@@ -110,10 +110,15 @@ export class AdminService {
             return error
         }
     }
-    
+
     async deleteEvent(dto: UpdateEventDto) {
         try {
-            
+            const eventgroups = await this.prisma.groupEvent.deleteMany({
+                where: {
+                    eventId: parseInt(dto.id)
+                }
+            })
+
             const event = await this.prisma.event.delete({
                 where: {
                     id: parseInt(dto.id),

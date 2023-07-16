@@ -49,7 +49,7 @@ export class AdminService {
                     name: dto.lecturer
                 }
             })
-            const event = this.prisma.event.create({
+            const event = await this.prisma.event.create({
                 data: {
                     title: dto.title,
                     date: dto.date,
@@ -85,13 +85,11 @@ export class AdminService {
 
     async updateEvent(dto: UpdateEventDto) {
         try {
-            console.log(dto)
             const existingLect = await this.prisma.lecturer.findUnique({
                 where: {
                     name: dto.lecturer
                 }
             })
-            console.log(existingLect)
             const event = await this.prisma.event.update({
                 where: {
                     id: parseInt(dto.id),

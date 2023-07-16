@@ -110,6 +110,20 @@ export class AdminService {
             return error
         }
     }
+    
+    async deleteEvent(dto: UpdateEventDto) {
+        try {
+            
+            const event = await this.prisma.event.delete({
+                where: {
+                    id: parseInt(dto.id),
+                }
+            })
+            return event
+        } catch(error) {
+            return error
+        }
+    }
 
     async getLecturers() {
         return await this.prisma.lecturer.findMany({});

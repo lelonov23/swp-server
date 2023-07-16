@@ -37,4 +37,9 @@ export class AdminController {
     updateEvent(@Body() dto: UpdateEventDto) {
         return this.adminService.updateEvent(dto);
     }
+
+    @Post('event/delete')
+    deleteEvent(@Body() dto: UpdateEventDto) {
+        return this.adminService.deleteEvent(dto)
+    }
 }

@@ -27,4 +27,9 @@ export class AdminController {
     switch(@Body() dto: EventDto) {
         return this.adminService.createEvent(dto);
     }
+
+    @Get('lecturers')
+    getLecturers() {
+        return this.adminService.getLecturers();
+    }
 }

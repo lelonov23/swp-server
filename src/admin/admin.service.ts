@@ -79,4 +79,8 @@ export class AdminService {
             console.log(error)
         }
     }
+    
+    async getLecturers() {
+        return await this.prisma.lecturer.findMany({});
+    }
 }

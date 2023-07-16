@@ -98,7 +98,9 @@ export class AdminService {
                     title: dto.title,
                     room: dto.room,
                     lecturer: {
-                        connect: existingLect,
+                        connect: {
+                            id: existingLect.id,
+                        }
                     },
                     type: dto.type == 'LECTURE' ? EventType.LECTURE : dto.type == 'LAB' ? EventType.LAB : EventType.TUTORIAL
                 }
